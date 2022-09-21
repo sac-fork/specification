@@ -3,9 +3,9 @@
 # Script to detect duplicate spec IDs in the client library spec
 # This tends to happen when concurrent spec PRs are merged
 
-API_SPEC_PATH = File.expand_path('../../content/client-lib-development-guide/features.textile', __FILE__)
+SPEC_PATH = File.expand_path('../../textile/features.textile', __FILE__)
 
-File.read(API_SPEC_PATH).scan(/\*\s\@\((\w+)\)\@/).group_by do |match|
+File.read(SPEC_PATH).scan(/\*\s\@\((\w+)\)\@/).group_by do |match|
   match
 end.select do |spec_id, matches|
   matches.count > 1
