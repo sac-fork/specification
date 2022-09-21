@@ -1,0 +1,24 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Read Tool Versions
+        id: tool-versions
+        run: echo "::set-output name=ruby::$(sed -nr 's/ruby ([0-9]+)/\1/p' .tool-versions)"
+
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ steps.tool-versions.outputs.ruby }}
+
+      - name: Find Duplicate Features Spec Items
+        run: ./scripts/find-duplicate-spec-items
