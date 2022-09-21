@@ -28,8 +28,7 @@ git rev-parse --short HEAD
 
 git filter-repo \
     --path content/client-lib-development-guide/ \
-    --path-rename 'content/client-lib-development-guide/':'textile/' \
-    --tag-rename '':'ably/docs/'
+    --path-rename 'content/client-lib-development-guide/':'textile/'
 ```
 
 Generating the following output:
