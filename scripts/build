@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+# https://bundler.io/guides/bundler_in_a_single_file_ruby_script.html
+require 'bundler/inline'
+puts 'Gems install and load...'
+gemfile do
+  source 'https://rubygems.org'
+  gem 'RedCloth', '~> 4.3.2'
+  gem 'ruby-handlebars', '~> 0.4.1'
+end
+puts 'Gems installed and loaded.'
+
+SOURCE_PATH = File.expand_path('../../textile', __FILE__)
+SOURCE_EXTENSION = ".textile"
+TEMPLATE_PATH = File.expand_path('../../templates/docs-textile.html.hbs', __FILE__)
+OUTPUT_PATH = File.expand_path('../../output', __FILE__)
+
+Dir.mkdir OUTPUT_PATH
+
+# Ably extension atop textile / RedCloth. See:
+# - https://github.com/ably/docs/blob/4edc37a8aae13995d63b7962b27b091f354f4597/lib/ably_pre_textile_filter.rb#L374
+# - https://github.com/jgarber/redcloth/blob/dd7ee6caaa6c899f4d5389c1b2fe4a17f1e5f326/spec/extension_spec.rb#L4
+module RedClothExtension
+  def add_spec_anchor_links(textile_content)
+    textile_content.gsub!(/\* @\((\w+)\)@/) do |m|
+      spec_id = $1
+      "* <a id='#{spec_id}' name='#{spec_id}' href='##{spec_id}'>@(#{spec_id})@</a>"
+    end
+  end
+end
+RedCloth.send(:include, RedClothExtension)
+
+handlebars = Handlebars::Handlebars.new
+template = handlebars.compile(File.read(TEMPLATE_PATH))
+
+Dir.children(SOURCE_PATH).each do |file_name|
+    if file_name.end_with? "#{SOURCE_EXTENSION}"
+        textile = File.read(File.join(SOURCE_PATH, file_name))
+        bodyHtml = RedCloth.new(textile).to_html
+        html = template.call({ bodyContent: bodyHtml })
+        folder_path = File.join(OUTPUT_PATH, file_name.delete_suffix(SOURCE_EXTENSION))
+        Dir.mkdir folder_path
+        File.write(File.join(folder_path, "index.html"), html)
+        puts "✓ #{file_name}"
+    end
+end
