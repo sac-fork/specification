@@ -21,6 +21,17 @@ Dir.mkdir OUTPUT_PATH
 # - https://github.com/ably/docs/blob/4edc37a8aae13995d63b7962b27b091f354f4597/lib/ably_pre_textile_filter.rb#L374
 # - https://github.com/jgarber/redcloth/blob/dd7ee6caaa6c899f4d5389c1b2fe4a17f1e5f326/spec/extension_spec.rb#L4
 module RedClothExtension
+  # A RedCloth rule which returns a copy of the given textile content with
+  # bulleted spec points converted into anchor links.
+  #
+  # For example, a spec point like:
+  #
+  #     * @(RTL18)@
+  #
+  # is replaced with:
+  #
+  #     * <a id='RTL18' name='RTL18' href='#RTL18'>@(RTL18)@</a>
+  #
   def add_spec_anchor_links(textile_content)
     textile_content.gsub!(/\* @\((\w+)\)@/) do |m|
       spec_id = $1
@@ -29,6 +40,7 @@ module RedClothExtension
   end
 end
 RedCloth.send(:include, RedClothExtension)
+REDCLOTH_RULES = [:add_spec_anchor_links]
 
 handlebars = Handlebars::Handlebars.new
 template = handlebars.compile(File.read(TEMPLATE_PATH))
@@ -36,7 +48,7 @@ template = handlebars.compile(File.read(TEMPLATE_PATH))
 Dir.children(SOURCE_PATH).each do |file_name|
     if file_name.end_with? "#{SOURCE_EXTENSION}"
         textile = File.read(File.join(SOURCE_PATH, file_name))
-        bodyHtml = RedCloth.new(textile).to_html
+        bodyHtml = RedCloth.new(textile).to_html(*REDCLOTH_RULES)
         html = template.call({ bodyContent: bodyHtml })
         folder_path = File.join(OUTPUT_PATH, file_name.delete_suffix(SOURCE_EXTENSION))
         Dir.mkdir folder_path
