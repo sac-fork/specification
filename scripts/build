@@ -13,6 +13,7 @@ puts 'Gems installed and loaded.'
 SOURCE_PATH = File.expand_path('../../textile', __FILE__)
 SOURCE_EXTENSION = ".textile"
 TEMPLATE_PATH = File.expand_path('../../templates/docs-textile.html.hbs', __FILE__)
+INDEX_TEMPLATE_PATH = File.expand_path('../../templates/index.html.hbs', __FILE__)
 OUTPUT_PATH = File.expand_path('../../output', __FILE__)
 
 Dir.mkdir OUTPUT_PATH
@@ -45,14 +46,24 @@ REDCLOTH_RULES = [:add_spec_anchor_links]
 handlebars = Handlebars::Handlebars.new
 template = handlebars.compile(File.read(TEMPLATE_PATH))
 
-Dir.children(SOURCE_PATH).each do |file_name|
-    if file_name.end_with? "#{SOURCE_EXTENSION}"
-        textile = File.read(File.join(SOURCE_PATH, file_name))
-        bodyHtml = RedCloth.new(textile).to_html(*REDCLOTH_RULES)
-        html = template.call({ bodyContent: bodyHtml })
-        folder_path = File.join(OUTPUT_PATH, file_name.delete_suffix(SOURCE_EXTENSION))
-        Dir.mkdir folder_path
-        File.write(File.join(folder_path, "index.html"), html)
-        puts "✓ #{file_name}"
-    end
+source_file_names = Dir.children(SOURCE_PATH).select {
+  |file_name| file_name.end_with? "#{SOURCE_EXTENSION}"
+}
+plain_file_names = source_file_names.collect {
+  |file_name| file_name.delete_suffix(SOURCE_EXTENSION)
+}
+
+source_file_names.each do |file_name|
+  textile = File.read(File.join(SOURCE_PATH, file_name))
+  bodyHtml = RedCloth.new(textile).to_html(*REDCLOTH_RULES)
+  html = template.call({ bodyContent: bodyHtml })
+  folder_path = File.join(OUTPUT_PATH, file_name.delete_suffix(SOURCE_EXTENSION))
+  Dir.mkdir folder_path
+  File.write(File.join(folder_path, "index.html"), html)
+  puts "✓ #{file_name}"
 end
+
+indexTemplate = handlebars.compile(File.read(INDEX_TEMPLATE_PATH))
+indexHtml = indexTemplate.call({ file_names: plain_file_names })
+File.write(File.join(OUTPUT_PATH, 'index.html'), indexHtml)
+puts "✓ Root Index"
