@@ -43,6 +43,29 @@ end
 RedCloth.send(:include, RedClothExtension)
 REDCLOTH_RULES = [:add_spec_anchor_links]
 
+def remove_frontmatter(file_contents)
+  had_frontmatter = false
+  in_frontmatter = false
+  body_contents = ''
+  file_contents.lines.each do |line|
+    if had_frontmatter
+      body_contents << line
+      body_contents << "\n"
+    else
+      # either we are yet to encounter frontmatter, or we're within it
+      if line.strip == '---'
+        if in_frontmatter
+          had_frontmatter = true
+          in_frontmatter = false
+        else
+          in_frontmatter = true
+        end
+      end
+    end
+  end
+  body_contents
+end
+
 handlebars = Handlebars::Handlebars.new
 template = handlebars.compile(File.read(TEMPLATE_PATH))
 
@@ -54,7 +77,7 @@ plain_file_names = source_file_names.collect {
 }
 
 source_file_names.each do |file_name|
-  textile = File.read(File.join(SOURCE_PATH, file_name))
+  textile = remove_frontmatter(File.read(File.join(SOURCE_PATH, file_name)))
   bodyHtml = RedCloth.new(textile).to_html(*REDCLOTH_RULES)
   html = template.call({ bodyContent: bodyHtml })
   folder_path = File.join(OUTPUT_PATH, file_name.delete_suffix(SOURCE_EXTENSION))
