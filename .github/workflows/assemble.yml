@@ -17,14 +17,19 @@ jobs:
 
       - name: Read Tool Versions
         id: tool-versions
-        run: echo "::set-output name=ruby::$(sed -nr 's/ruby ([0-9]+)/\1/p' .tool-versions)"
+        run: |
+          echo "::set-output name=ruby::$(sed -nr 's/ruby ([0-9]+)/\1/p' .tool-versions)"
+          echo "::set-output name=nodejs::$(sed -nr 's/nodejs ([0-9]+)/\1/p' .tool-versions)"
 
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ steps.tool-versions.outputs.ruby }}
 
-      - name: Build HTML from Textile sources
-        run: ./scripts/build
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
