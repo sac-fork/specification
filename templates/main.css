@@ -16,7 +16,10 @@
     @apply text-lg text-gray-600 font-bold mt-2 mb-1;
   }
   ul {
-    @apply list-disc pl-5;
+    @apply list-disc pl-5 mt-1.5 mb-3;
+  }
+  li {
+    @apply my-1;
   }
   code {
     @apply text-slate-600 bg-amber-100;
