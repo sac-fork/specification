@@ -50,7 +50,6 @@ def remove_frontmatter(file_contents)
   file_contents.lines.each do |line|
     if had_frontmatter
       body_contents << line
-      body_contents << "\n"
     else
       # either we are yet to encounter frontmatter, or we're within it
       if line.strip == '---'
