@@ -3,12 +3,27 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../tailwind.css" rel="stylesheet">
+    <link href="{{ root_path }}tailwind.css" rel="stylesheet">
     <title>{{ title }} | Ably Specification</title>
   </head>
   <body>
     <div class="my-1 mx-4">
-      <h1>Ably Specification: {{ title }}</h1>
+      <h1>
+        <a href="{{ root_path }}">Ably Specification</a>:
+        {{ title }}
+      </h1>
+      <div class="flex flex-row flex-wrap my-4 border-y-2 border-gray-500 pt-0 pb-1">
+        <div class="mr-2">
+          <strong>See also:</strong>
+        </div>
+      {{#each file_names as |file_name|}}
+        <div class="mx-1">
+          <a href="{{ root_path }}{{ file_name }}/">
+            {{ file_name }}
+          </a>
+        </div>
+      {{/each}}
+      </div>
       {{{ bodyContent }}}
     </div>
   </body>

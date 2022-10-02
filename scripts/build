@@ -11,9 +11,9 @@ end
 puts 'Gems installed and loaded.'
 
 SOURCE_PATH = File.expand_path('../../textile', __FILE__)
-SOURCE_EXTENSION = ".textile"
+SOURCE_EXTENSION = '.textile'
+ROOT_SOURCE_NAME = 'index'
 TEMPLATE_PATH = File.expand_path('../../templates/docs-textile.html.hbs', __FILE__)
-INDEX_TEMPLATE_PATH = File.expand_path('../../templates/index.html.hbs', __FILE__)
 OUTPUT_PATH = File.expand_path('../../output', __FILE__)
 
 Dir.mkdir OUTPUT_PATH
@@ -72,22 +72,27 @@ template = handlebars.compile(File.read(TEMPLATE_PATH))
 source_file_names = Dir.children(SOURCE_PATH).select {
   |file_name| file_name.end_with? "#{SOURCE_EXTENSION}"
 }
+
+# File names without '.textile' extension, and without the root 'index'.
 plain_file_names = source_file_names.collect {
   |file_name| file_name.delete_suffix(SOURCE_EXTENSION)
-}
+} - [ROOT_SOURCE_NAME]
 
 source_file_names.each do |file_name|
   textile = remove_frontmatter(File.read(File.join(SOURCE_PATH, file_name)))
   bodyHtml = RedCloth.new(textile).to_html(*REDCLOTH_RULES)
   plain_file_name = file_name.delete_suffix(SOURCE_EXTENSION)
-  html = template.call({ bodyContent: bodyHtml, title: plain_file_name.capitalize() })
-  folder_path = File.join(OUTPUT_PATH, plain_file_name)
-  Dir.mkdir folder_path
+  is_root = (plain_file_name == ROOT_SOURCE_NAME)
+  html = template.call({
+    bodyContent: bodyHtml,
+    title: plain_file_name.capitalize(),
+    file_names: plain_file_names - [plain_file_name],
+    root_path: is_root ? '' : '../',
+  })
+  folder_path = is_root ? OUTPUT_PATH : File.join(OUTPUT_PATH, plain_file_name)
+  if !is_root
+    Dir.mkdir folder_path
+  end
   File.write(File.join(folder_path, "index.html"), html)
   puts "✓ #{file_name}"
 end
-
-indexTemplate = handlebars.compile(File.read(INDEX_TEMPLATE_PATH))
-indexHtml = indexTemplate.call({ file_names: plain_file_names, title: 'Index' })
-File.write(File.join(OUTPUT_PATH, 'index.html'), indexHtml)
-puts "✓ Root Index"
