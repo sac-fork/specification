@@ -33,4 +33,13 @@
   p {
     @apply mb-2;
   }
+  table {
+    @apply border-collapse border border-slate-600 my-4;
+  }
+  td, th {
+    @apply border border-slate-400 px-1;
+  }
+  th {
+    @apply bg-slate-200;
+  }
 }
