@@ -1,0 +1,52 @@
+# Ably Features Specification: Contributing Guidelines
+
+## Local Development Workflow
+
+Please use our GitHub workflows (Check and Assemble) as the canonical source of truth for how this codebase is validated and built in CI, however to get you up and running quickly the local development experience goes like this:
+
+### Required Development Tools
+
+You'll need Ruby and Node.js installed.
+Consult [our `.tool-versions` file](.tool-versions) for the versions that we use to validate and build in CI.
+This file is of particular use to those using [asdf](https://asdf-vm.com/) or compatible tooling.
+
+### Installing Dependencies
+
+When you've just cloned the repository or you've switched branch, ensure that you've installed dependencies with:
+
+    npm install
+
+[The `scripts` folder](scripts/) contains code written in Ruby, however those scripts are intentionally self-contained, so there is no need to discretely install Ruby dependencies outside of what is done inline in those script files.
+
+### Build and Preview
+
+To build the static HTML microsite that's generated from the source files in this repository:
+
+    npm run build
+
+Then to open that in your browser to preview:
+
+    open output/index.html
+
+On macOS systems that will open it using the `file://` URL loading scheme.
+This means that navigating to the folders for each page will require two clicks, first into the folder and then onto the `index.html` document within that folder.
+
+If you make a change to a source file then you will need to `npm run build` again and then refresh your browser.
+
+We plan to improve this developer experience when we work on
+[#90](https://github.com/ably/specification/issues/90),
+by adding a local development HTTP server.
+
+## Features Spec Points
+
+When making changes to [the spec](textile/features.textile), please follow these guidelines:
+
+- **Ordering**: Spec items should generally appear in ID order, but priority should be placed on ordering them in a way that makes coherent sense, even if that results in them being numbered out-of-order. For example, if `XXX1`, `XXX2` and `XXX3` exist but it would make more sense for `XXX3` to follow `XXX1`, then just move the spec items accordingly without changing their IDs
+- **Addition**: When adding a new spec item, choose an ID that is greater than all others that exist in the given section, even if there is a gap in the currently assigned IDs. This is desirable so that client library references to spec items are still semantically valid even after they are removed from the spec rather than now having different semantics due to the ID being re-used. For example, if `XXX1a` and `XXX1c` exist but `XXX1b` doesn’t because it was removed in the past, then introduce `XXX1d` for the new spec item rather than re-using `XXX1b`
+- **Removal**: When removing a spec item, it must remain but replace all text with “This clause has been deleted.”. See [#1057](https://github.com/ably/docs/pull/1057) for an example of this in practice.
+- **Deprecation**: Our approach to deprecating features is yet to be fully evolved and documented, however we have a current standard in place whereby the text "(deprecated)" is inserted at the beginning of a specification point to declare that it will be removed in a future release. The likely outcome is that in the next major release of the spec/protocol we'll remove that spec item, per guidance above.
+
+## Release Process
+
+This will be documented when we work on
+[#6](https://github.com/ably/specification/issues/6).

@@ -7,3 +7,7 @@ _[Ably](https://ably.com) is the platform that powers synchronized digital exper
 ## Overview
 
 This repository has been created as the new home for the 'features spec' that describes the interfaces, implementation details and behaviours of SDKs (sometimes referred to as client libraries) that provide application developers with support to integrate and leverage the Ably platform in their solutions.
+
+## Contributing
+
+For guidance on how to contribute to this project, see [CONTRIBUTING.md](CONTRIBUTING.md).
