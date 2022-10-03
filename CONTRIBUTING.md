@@ -6,7 +6,7 @@ Please use our GitHub workflows ([Check](.github/workflows/check.yaml) and [Asse
 
 ### Required Development Tools
 
-You'll need Ruby and Node.js installed.
+You'll need [Ruby](https://www.ruby-lang.org/) and [Node.js](https://nodejs.org/) installed.
 Consult [our `.tool-versions` file](.tool-versions) for the versions that we use to validate and build in CI.
 This file is of particular use to those using [asdf](https://asdf-vm.com/) or compatible tooling.
 
