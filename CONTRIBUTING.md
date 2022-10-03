@@ -2,7 +2,7 @@
 
 ## Local Development Workflow
 
-Please use our GitHub workflows (Check and Assemble) as the canonical source of truth for how this codebase is validated and built in CI, however to get you up and running quickly the local development experience goes like this:
+Please use our GitHub workflows ([Check](.github/workflows/check.yaml) and [Assemble]((.github/workflows/assemble.yaml))) as the canonical source of truth for how this codebase is validated and built in CI, however to get you up and running quickly the local development experience goes like this:
 
 ### Required Development Tools
 
