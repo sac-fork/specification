@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: ably/github-event-context-action@v1
-        id: event-context
+        id: context
 
       - name: Read Tool Versions
         id: tool-versions
@@ -33,6 +33,10 @@ jobs:
 
       - name: Lint
         run: npm run build
+        env:
+          ABLY_BUILD_CONTEXT_SHA: ${{ steps.context.outputs.sha }}
+          ABLY_BUILD_CONTEXT_URL: ${{ steps.context.outputs.url }}
+          ABLY_BUILD_CONTEXT_TITLE: ${{ steps.context.outputs.title }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
