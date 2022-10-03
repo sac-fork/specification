@@ -204,7 +204,7 @@ Showing 11 of 11 issues in ably/docs that match your search
 ```
 
 My working theory was that the failures were perhaps due to rate limiting.
-I suspect that may have been the case, as simply running thru the whole process again from the top resulted in success:
+I suspect that may have been the case, as simply running through the whole process again from the top resulted in success:
 
 ```
 docs % ./transfer-client-lib-spec-issues.sh
