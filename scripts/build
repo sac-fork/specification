@@ -15,6 +15,12 @@ SOURCE_EXTENSION = '.textile'
 ROOT_SOURCE_NAME = 'index'
 TEMPLATE_PATH = File.expand_path('../../templates/docs-textile.html.hbs', __FILE__)
 OUTPUT_PATH = File.expand_path('../../output', __FILE__)
+COPYRIGHT_PATH = File.expand_path('../../COPYRIGHT', __FILE__)
+
+BUILD_CONTEXT_SHA = ENV['ABLY_BUILD_CONTEXT_SHA']
+BUILD_CONTEXT_URL = ENV['ABLY_BUILD_CONTEXT_URL']
+BUILD_CONTEXT_TITLE = ENV['ABLY_BUILD_CONTEXT_TITLE']
+COPYRIGHT = File.read(COPYRIGHT_PATH)
 
 Dir.mkdir OUTPUT_PATH
 
@@ -87,6 +93,10 @@ source_file_names.each do |file_name|
     title: plain_file_name.capitalize(),
     file_names: plain_file_names - [plain_file_name],
     root_path: is_root ? '' : '../',
+    copyright: COPYRIGHT,
+    build_context_title: BUILD_CONTEXT_TITLE,
+    build_context_url: BUILD_CONTEXT_URL,
+    build_context_sha: BUILD_CONTEXT_SHA,
   })
   folder_path = is_root ? OUTPUT_PATH : File.join(OUTPUT_PATH, plain_file_name)
   if !is_root
