@@ -21,6 +21,12 @@
   li {
     @apply my-1;
   }
+  dl {
+    @apply mt-1.5 mb-3;
+  }
+  dd {
+    @apply ml-10;
+  }
   code {
     @apply text-slate-600 bg-amber-100;
   }
