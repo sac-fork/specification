@@ -76,7 +76,7 @@ template = handlebars.compile(File.read(TEMPLATE_PATH))
 
 source_file_names = Dir.children(SOURCE_PATH).select {
   |file_name| file_name.end_with? "#{SOURCE_EXTENSION}"
-}
+}.sort
 
 # File names without '.textile' extension, and without the root 'index'.
 plain_file_names = source_file_names.collect {
