@@ -28,13 +28,13 @@
     @apply ml-10;
   }
   code {
-    @apply text-slate-600 bg-amber-100;
+    @apply px-1 bg-slate-100;
   }
   pre {
     @apply my-4 p-2 border border-slate-600 bg-slate-100;
   }
   a code {
-    @apply bg-inherit hover:text-amber-700 hover:font-semibold;
+    @apply bg-inherit px-0 hover:text-amber-700 hover:font-semibold;
   }
   a {
     @apply hover:underline hover:text-amber-700;
