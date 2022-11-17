@@ -31,7 +31,7 @@
     @apply text-slate-600 bg-amber-100;
   }
   pre {
-    @apply mx-4;
+    @apply my-4 p-2 border border-slate-600 bg-slate-100;
   }
   a code {
     @apply bg-inherit hover:text-amber-700 hover:font-semibold;
