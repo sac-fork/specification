@@ -1687,8 +1687,7 @@ Please note the following conventions:
 
 Each type, method, and attribute is labelled with the name of one or more clauses from the preceding feature spec. An asterisk is used as a wildcard to mean all clauses with a given prefix.
 
-```
-class RestClient: // RSC*
+pre.. class RestClient: // RSC*
   constructor(keyOrTokenStr: String) // RSC1
   constructor(ClientOptions) // RSC1
   auth: Auth // RSC5
@@ -2348,8 +2347,6 @@ class DeltaExtras // DE*
 class ReferenceExtras: // REX*
   timeserial: String // REX2a
   type: String //REX2b
-
-```
 
 h2(#old-specs). Old specs
 
