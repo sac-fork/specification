@@ -35,6 +35,7 @@ jump_to:
     - Data types#types
     - Options#options
     - Push notifications#types-push
+    - Client library introspection#introspection
   Interface Definition:
     - Complete API IDL#idl
   Previous version:
@@ -731,7 +732,11 @@ h3(#realtime-presence). RealtimePresence
 ** @(RTP8c)@ A @PRESENCE ProtocolMessage@ with a @PresenceMessage@ with the action @ENTER@ is sent to the Ably service. The @clientId@ attribute of the @PresenceMessage@ must not be present. Entering without an explicit @PresenceMessage#clientId@, implicitly uses the @clientId@ for the current connection
 ** @(RTP8d)@ Implicitly attaches the @RealtimeChannel@ if the channel is in the @INITIALIZED@ state. However, if the channel is in the @DETACHED@ or @FAILED@ state, the @enter@ request results in an error
 ** @(RTP8e)@ Optional data and/or extras can be included when entering a channel that will be encoded and decoded as with normal messages. A test should exist to ensure data and extras used with enter are encoded & decoded correctly. Also, when data and/or extras is provided when entering, but neither data nor extras are provided when leaving, the data attribute should be emitted in the @LEAVE@ event for this client
-** @(RTP8f)@ If the client library is authenticated but unidentified (i.e. @clientId@ is a wildcard @'*'@ or client is anonymous), the @enter@ request results in an error immediately
+** @(RTP8f)@ This clause has been replaced by "RTP8j":#RTP8j as of version 1.2 of this specification
+** @(RTP8j)@ If the connection is in the @CONNECTED@ state, and the value of @RealtimeClient#clientId@ is one of the following:
+- @'*'@ – a wildcard value indicating that this client is permitted to associate any client identifier it wishes with the operations it performs;
+- @null@ – indicating that the client is anonymous and is not permitted to associate a client identifier with the operations it performs;
+then the @enter@ request results in an error immediately.
 ** @(RTP8g)@ If the channel is @DETACHED@ or @FAILED@, the @enter@ request results in an error immediately
 ** @(RTP8h)@ If the Ably service determines that the client does not have required presence permission, a @NACK@ is sent to the client resulting in an error
 ** @(RTP8i)@ If the Ably service determines that the client is unidentified, a @NACK@ is sent to the client resulting in an error
@@ -1668,6 +1673,18 @@ h4. DevicePushDetails
 * @(PCP3)@ recipient - a map of string key/value pairs containing details of the push transport and address
 * @(PCP4)@ state - the state of the push registration, one of  @Active@, @Failing@, @Failed@
 
+h3(#introspection). Client library introspection
+
+h4. ClientInformation
+* @(CR1)@ Provides information about the client library and the environment in which it’s running.
+* @(CR2)@ @agents@ static property:
+** @(CR2a)@ Returns a @Dict<String, String?>@ that lists the default key-value entries that the library uses to populate the @Agent@ library identifier, as described by "@RSC7d1@":#RSC7d1. An example would be @{ "ably-java": "1.2.1", "android": "24" }@.
+* @(CR3)@ @agentIdentifier@ static method:
+** @(CR3a)@ The client library must only offer this method if it offers the @ClientOptions#agents@ property described by "@RSC7d6@":#RSC7d6.
+** @(CR3b)@ Returns the @Agent@ library identifier described by "@RSC7d@":#RSC7d.
+** @(CR3c)@ Accepts an @additionalAgents@ parameter of type @Dict<String, String?>?@, whose value is to be interpreted with the same semantics as the @ClientOptions#agents@ property. The @agentIdentifier@ method will inject these agents into the @Agent@ library identifier that it returns.
+** @(CR3d)@ An API commentary must be provided for this method. This commentary must make it clear that this interface is only to be used by Ably-authored SDKs.
+
 h3(#defaults). Client Library defaults
 
 The following default values are configured for the client library:
@@ -1700,7 +1717,7 @@ Please note the following conventions:
 
 Each type, method, and attribute is labelled with the name of one or more clauses from the preceding feature spec. An asterisk is used as a wildcard to mean all clauses with a given prefix.
 
-```
+<pre>
 class RestClient: // RSC*
   constructor(keyOrTokenStr: String) // RSC1
   constructor(ClientOptions) // RSC1
@@ -2362,7 +2379,10 @@ class ReferenceExtras: // REX*
   timeserial: String // REX2a
   type: String //REX2b
 
-```
+class ClientInformation: // CR*
+  +agents: Dict<String, String?> // CR2
+  +agentIdentifier(additionalAgents: Dict<String, String?>?) => String // CR3; interface only offered by some libraries
+</pre>
 
 h2(#old-specs). Old specs
 

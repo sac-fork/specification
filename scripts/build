@@ -76,7 +76,7 @@ template = handlebars.compile(File.read(TEMPLATE_PATH))
 
 source_file_names = Dir.children(SOURCE_PATH).select {
   |file_name| file_name.end_with? "#{SOURCE_EXTENSION}"
-}
+}.sort
 
 # File names without '.textile' extension, and without the root 'index'.
 plain_file_names = source_file_names.collect {
@@ -85,7 +85,7 @@ plain_file_names = source_file_names.collect {
 
 source_file_names.each do |file_name|
   textile = remove_frontmatter(File.read(File.join(SOURCE_PATH, file_name)))
-  bodyHtml = RedCloth.new(textile).to_html(*REDCLOTH_RULES)
+  bodyHtml = RedCloth.new(textile, [:no_span_caps]).to_html(*REDCLOTH_RULES)
   plain_file_name = file_name.delete_suffix(SOURCE_EXTENSION)
   is_root = (plain_file_name == ROOT_SOURCE_NAME)
   html = template.call({
