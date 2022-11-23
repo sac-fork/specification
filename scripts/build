@@ -84,6 +84,7 @@ plain_file_names = source_file_names.collect {
 } - [ROOT_SOURCE_NAME]
 
 source_file_names.each do |file_name|
+  print "#{file_name} ... "
   textile = remove_frontmatter(File.read(File.join(SOURCE_PATH, file_name)))
   bodyHtml = RedCloth.new(textile, [:no_span_caps]).to_html(*REDCLOTH_RULES)
   plain_file_name = file_name.delete_suffix(SOURCE_EXTENSION)
@@ -103,5 +104,5 @@ source_file_names.each do |file_name|
     Dir.mkdir folder_path
   end
   File.write(File.join(folder_path, "index.html"), html)
-  puts "✓ #{file_name}"
+  puts "✓"
 end
