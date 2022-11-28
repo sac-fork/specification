@@ -43,6 +43,7 @@ When making changes to [the spec](textile/features.textile), please follow these
 
 - **Ordering**: Spec items should generally appear in ID order, but priority should be placed on ordering them in a way that makes coherent sense, even if that results in them being numbered out-of-order. For example, if `XXX1`, `XXX2` and `XXX3` exist but it would make more sense for `XXX3` to follow `XXX1`, then just move the spec items accordingly without changing their IDs
 - **Addition**: When adding a new spec item, choose an ID that is greater than all others that exist in the given section, even if there is a gap in the currently assigned IDs.
+- **Modification**: Spec items should never be mutated, except to patch a mistake that doesn't change the semantics for SDK implementations. Follow the guidance outlined here in respect of _Replacement_ if the meaning or scope of a spec point needs to change.
 - **Removal**: When removing a spec item, it must remain but replace all text with “This clause has been deleted.”. See [#1057](https://github.com/ably/docs/pull/1057) for an example of this in practice.
 - **Deprecation**: Our approach to deprecating features is yet to be fully evolved and documented, however we have a current standard in place whereby the text "(deprecated)" is inserted at the beginning of a specification point to declare that it will be removed in a future release. The likely outcome is that in the next major release of the spec/protocol we'll remove that spec item, per guidance above.
 
