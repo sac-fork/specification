@@ -43,6 +43,8 @@ Examples of changes that would result in a `patch` bump include:
 Where the 'SDK API' refers to the IDL and interface names documented in the [features spec](textile/features.textile),
 representing the surface area of the SDK that is directly visible to and used by app developers who are using that SDK to use the Ably service.
 
+It is expected that there may be specification changes which involve features spec point _Removal_ or _Deprecation_ where that change only necessitates a `minor` bump to the specification version number - that is, the removal or deprecation is deemed backwards compatible according to the constraints outlined above. See [Contributing Guidance: Features Spec Points](CONTRIBUTING.md#features-spec-points).
+
 It is not anticipated that specification versions will ever need to use a pre-release suffix.
 The specification is primarily used by SDK developers and bumps to the specification version will only be made after the changes being released have been thoroughly reviewed and likely to have already have been implemented/prototyped in at least one SDK.
 Therefore, the idea of a 'preview' release of the specification doesn't make sense.
