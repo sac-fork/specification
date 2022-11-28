@@ -14,8 +14,8 @@ Defined within the contents of this repository are multiple version numbers:
 
 | Version | Format | Location of Definition | Scope |
 | ------- | ------ | ---------------------- | ----- |
-| [**Specification**](#specification-version) | [SemVer](https://semver.org/) | The `versions.specification` field in [`meta.yaml`](meta.yaml) | The specification documents - files in [the `textile/` folder](textile/), the 'content'. |
-| [**Service**](#service-version) | Integer from version `2` onwards (it was Decimal prior to that, for example `1.2`) | The `versions.service` field in [`meta.yaml`](meta.yaml) | The wire protocol used when communicating with the Ably service. Specified for REST requests under `RSC7a` and for Realtime connections under `RTN2f`. Often referred to as 'protocol version' or 'API version' (when 'API' is referring to details of the service protocols presented by the Ably service). |
+| [**Specification**](#specification-version) | [SemVer](https://semver.org/) | The `versions.specification` field in [`meta.yaml`](meta.yaml) | Format and usage are specified in `CSV1`. The specification documents - files in [the `textile/` folder](textile/), the 'content'. |
+| [**Service**](#service-version) | Integer from version `2` onwards (it was Decimal prior to that, for example `1.2`). | The `versions.service` field in [`meta.yaml`](meta.yaml) | Format and usage are specified in `CSV2`. The wire protocol used when communicating with the Ably service. Specified for REST requests under `RSC7a` and for Realtime connections under `RTN2f`. Often referred to as 'protocol version' or 'API version' (when 'API' is referring to details of the service protocols presented by the Ably service). |
 | [**Build**](#build-version) | [SemVer](https://semver.org/) | The `version` field in [`package.json`](package.json) | Other files hosted in this repository which render the specification for viewers or otherwise check it or build artifacts from it. |
 
 ### Specification Version

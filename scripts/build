@@ -16,6 +16,7 @@ ROOT_SOURCE_NAME = 'index'
 TEMPLATE_PATH = File.expand_path('../../templates/docs-textile.html.hbs', __FILE__)
 OUTPUT_PATH = File.expand_path('../../output', __FILE__)
 COPYRIGHT_PATH = File.expand_path('../../COPYRIGHT', __FILE__)
+META_PATH = File.expand_path('../../meta.yaml', __FILE__)
 
 BUILD_CONTEXT_SHA = ENV['ABLY_BUILD_CONTEXT_SHA']
 BUILD_CONTEXT_URL = ENV['ABLY_BUILD_CONTEXT_URL']
@@ -71,6 +72,8 @@ def remove_frontmatter(file_contents)
   body_contents
 end
 
+versions = YAML.load_file(META_PATH)['versions']
+
 handlebars = Handlebars::Handlebars.new
 template = handlebars.compile(File.read(TEMPLATE_PATH))
 
@@ -85,7 +88,13 @@ plain_file_names = source_file_names.collect {
 
 source_file_names.each do |file_name|
   print "#{file_name} ... "
+
+  # We could possibly have used the Handlebars gem we're using elsewhere for this, however it was barfing on features.textile for no clear reason.
+  # Regular expression find and replace (gsub) works for our simple needs here, so we're using that for simplicity.
   textile = remove_frontmatter(File.read(File.join(SOURCE_PATH, file_name)))
+    .gsub(/\{\{\s*SPECIFICATION_VERSION\s*\}\}/, versions['specification'].to_s)
+    .gsub(/\{\{\s*SERVICE_VERSION\s*\}\}/, versions['service'].to_s)
+
   bodyHtml = RedCloth.new(textile, [:no_span_caps]).to_html(*REDCLOTH_RULES)
   plain_file_name = file_name.delete_suffix(SOURCE_EXTENSION)
   is_root = (plain_file_name == ROOT_SOURCE_NAME)
