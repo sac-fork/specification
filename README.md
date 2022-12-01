@@ -66,7 +66,7 @@ When an SDK adopts a new service version then it's 'all or nothing', in that all
 
 Whether SDK changes are as a result of wire protocol changes that are breaking (incompatible) or enhancing in nature is not something that we need the service version to imply by its value.
 The Ably service promises to support SDKs connecting to it using older service (wire protocol) versions.
-This 'service makes right' feature of the service means that all we need the service version for is to track when a behavioural change has been made to the service implementation, alongside its corresponding wire protocol API, that requires the service to know that the SDK its communicating with also understands this new behaviour.
+This 'service makes right' feature of the service means that all we need the service version for is to track when a behavioural change has been made to the service implementation, alongside its corresponding wire protocol API, that requires the service to know that the SDK it's communicating with also understands this new behaviour.
 
 ### Build Version
 
