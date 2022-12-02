@@ -52,6 +52,8 @@ When making changes to [the spec](textile/features.textile), please follow these
 
 Specification version references included in _Removal_ and _Replacement_ notices are in the form `X.Y` because they only need to include the `major` (`X`) and `minor` (`Y`) components of the specification version. See [Specification Version](README.md#specification-version).
 
+If the clause being removed or replaced has subclauses then the expected implication is that they are also being removed or replaced. Therefore, aligned with this guidance, they must remain but with their text replaced. This might mean that in some cases, for example, a clause is marked as replaced but some or all of its subclauses are marked as removed.
+
 Historically, before the above guidance was established - in particular around _Removal_ and _Replacement_ - there have been some cases where spec points were completely deleted.
 This left us open to the problem that client library references to spec items could end up semantically invalid if that spec point was re-used later.
 For example, if `XXX1a` and `XXX1c` exist but `XXX1b` doesn’t because it was removed in the past (prior to this guidance being established), then we should introduce `XXX1d` for the new spec item rather than re-using `XXX1b`.
