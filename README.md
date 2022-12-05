@@ -51,7 +51,7 @@ Therefore, the idea of a 'preview' release of the specification doesn't make sen
 
 See also:
 
-- [Ably SDK Team: Guidance on Releases: Version Bump](https://github.com/ably/ably-dotnet/issues/1152#issuecomment-1284188019)
+- [Ably SDK Team: Guidance on Releases: Version Bump](https://github.com/ably/engineering/blob/main/sdk/releases.md#version-bump)
 
 ### Service Version
 
