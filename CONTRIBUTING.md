@@ -66,4 +66,4 @@ For example, if `XXX1a` and `XXX1c` exist but `XXX1b` doesn’t because it was r
 ## Release Process
 
 This will be documented when we work on
-[#6](https://github.com/ably/specification/issues/6).
+[#121](https://github.com/ably/specification/issues/121).
