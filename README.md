@@ -15,7 +15,7 @@ Defined within the contents of this repository are multiple version numbers:
 | Version | Format | Location of Definition | Scope |
 | ------- | ------ | ---------------------- | ----- |
 | [**Specification**](#specification-version) | [SemVer](https://semver.org/) | The `versions.specification` field in [`meta.yaml`](meta.yaml) | Format and usage are specified in `CSV1`. The specification documents - files in [the `textile/` folder](textile/), the 'content'. |
-| [**Service**](#service-version) | Integer from version `2` onwards (it was Decimal prior to that, for example `1.2`). | The `versions.service` field in [`meta.yaml`](meta.yaml) | Format and usage are specified in `CSV2`. The wire protocol used when communicating with the Ably service. Specified for REST requests under `RSC7a` and for Realtime connections under `RTN2f`. Often referred to as 'protocol version' or 'API version' (when 'API' is referring to details of the service protocols presented by the Ably service). |
+| [**Protocol**](#protocol-version) | Integer from version `2` onwards (it was Decimal prior to that, for example `1.2`). | The `versions.protocol` field in [`meta.yaml`](meta.yaml) | Format and usage are specified in `CSV2`. The wire protocol used when communicating with the Ably service. Specified for REST requests under `RSC7a` and for Realtime connections under `RTN2f`. Sometimes referred to as 'API version' (when 'API' is referring to details of the protocols understood by the Ably service). |
 | [**Build**](#build-version) | [SemVer](https://semver.org/) | The `version` field in [`package.json`](package.json) | Other files hosted in this repository which render the specification for viewers or otherwise check it or build artifacts from it. |
 
 ### Specification Version
@@ -26,7 +26,7 @@ Examples of changes that would result in a `major` bump, being backwards incompa
 
 - The SDK API used by app developers has changed in a way that is breaking
 - Required SDK behaviour has changed in a way that necessitates that changes are made to SDK implementations
-- There is a change to the wire protocol which SDKs must adopt in order to use a newer [service version](#service-version)
+- There is a change to the way that the service interacts with SDKs when they announce compatibility with a newer [protocol version](#protocol-version)
 
 Examples of changes that would result in a `minor` bump, being backwards compatible changes, include:
 
@@ -53,7 +53,7 @@ See also:
 
 - [Ably SDK Team: Guidance on Releases: Version Bump](https://github.com/ably/engineering/blob/main/sdk/releases.md#version-bump)
 
-### Service Version
+### Protocol Version
 
 Incremented when changes are made to the Ably service where at least one of the following applies:
 
@@ -62,11 +62,11 @@ Incremented when changes are made to the Ably service where at least one of the 
 - the behaviour of the SDK needs to change in a way that the service needs to reflect or respond to
 
 We are using a simple integer value here because there is no need for structured versioning.
-When an SDK adopts a new service version then it's 'all or nothing', in that all implications of supporting that service version must be catered for by the changes made to that SDK in order to adopt the new service version.
+When an SDK adopts a new protocol version then it's 'all or nothing', in that all implications of supporting that protocol version must be catered for by the changes made to that SDK in order to adopt the new protocol version.
 
-Whether SDK changes are as a result of wire protocol changes that are breaking (incompatible) or enhancing in nature is not something that we need the service version to imply by its value.
-The Ably service promises to support SDKs connecting to it using older service (wire protocol) versions.
-This 'service makes right' feature of the service means that all we need the service version for is to track when a behavioural change has been made to the service implementation, alongside its corresponding wire protocol API, that requires the service to know that the SDK it's communicating with also understands this new behaviour.
+Whether SDK changes are as a result of wire protocol changes that are breaking (incompatible) or enhancing in nature is not something that we need the protocol version to imply by its value.
+The Ably service promises to support SDKs connecting to it using older protocol versions.
+This 'service makes right' feature of the service means that all we need the protocol version for is to track when a behavioural change has been made to the service implementation, alongside its corresponding wire protocol API, that requires the service to know that the SDK it's communicating with also understands this new behaviour.
 
 ### Build Version
 
