@@ -42,11 +42,28 @@ by adding a local development HTTP server.
 When making changes to [the spec](textile/features.textile), please follow these guidelines:
 
 - **Ordering**: Spec items should generally appear in ID order, but priority should be placed on ordering them in a way that makes coherent sense, even if that results in them being numbered out-of-order. For example, if `XXX1`, `XXX2` and `XXX3` exist but it would make more sense for `XXX3` to follow `XXX1`, then just move the spec items accordingly without changing their IDs
-- **Addition**: When adding a new spec item, choose an ID that is greater than all others that exist in the given section, even if there is a gap in the currently assigned IDs. This is desirable so that client library references to spec items are still semantically valid even after they are removed from the spec rather than now having different semantics due to the ID being re-used. For example, if `XXX1a` and `XXX1c` exist but `XXX1b` doesn’t because it was removed in the past, then introduce `XXX1d` for the new spec item rather than re-using `XXX1b`
-- **Removal**: When removing a spec item, it must remain but replace all text with “This clause has been deleted.”. See [#1057](https://github.com/ably/docs/pull/1057) for an example of this in practice.
+- **Addition**: When adding a new spec item, choose an ID that is greater than all others that exist in the given section, even if there is a gap in the currently assigned IDs.
+- **Modification**: Spec items should never be mutated, except to patch a mistake that doesn't change the semantics for SDK implementations. Follow the guidance outlined here in respect of _Replacement_ if the meaning or scope of a spec point needs to change.
+- **Removal**: When removing a spec item, it must remain but replace all text with `This clause has been deleted. It was valid up to and including specification version @X.Y@.` (uses textile markup).
+- **Replacement**: When replacing a spec item, it must remain but replace all text with `This clause has been replaced by "@Z@":#Z. It was valid up to and including specification version @X.Y@.` (uses textile markup).
 - **Deprecation**: Our approach to deprecating features is yet to be fully evolved and documented, however we have a current standard in place whereby the text "(deprecated)" is inserted at the beginning of a specification point to declare that it will be removed in a future release. The likely outcome is that in the next major release of the spec/protocol we'll remove that spec item, per guidance above.
+
+### Additional Notes on Features Spec Point _Removal_ and _Replacement_
+
+Specification version references included in _Removal_ and _Replacement_ notices are in the form `X.Y` because they only need to include the `major` (`X`) and `minor` (`Y`) components of the specification version. See [Specification Version](README.md#specification-version).
+
+If the clause being removed or replaced has subclauses then the expected implication is that they are also being removed or replaced. Therefore, aligned with this guidance, they must remain but with their text replaced. This might mean that in some cases, for example, a clause is marked as replaced but some or all of its subclauses are marked as removed.
+
+Variations on the replacement text for removed or replaced spec items is allowed, as long as the overarching structure remains the same. For example:
+
+- When a spec item has been removed because a new spec point has made it redudant, which is the case for `RTN15f` after specification version `1.2`, where the replacement text is: `This clause has been deleted (redundant to "RTN19a":#RTN19a). It was valid up to and including specification version @1.2@.`
+- When a spec item has been replaced by more than one new spec item, which is the case for `RTN16b` after specification version `1.2`, where the replacement text is: `This clause has been replaced by "@RTN16g@":#RTN16g and "@RTN16m@":#RTN16m. It was valid up to and including specification version @1.2@.`
+
+Historically, before the above guidance was established - in particular around _Removal_ and _Replacement_ - there have been some cases where spec points were completely deleted.
+This left us open to the problem that client library references to spec items could end up semantically invalid if that spec point was re-used later.
+For example, if `XXX1a` and `XXX1c` exist but `XXX1b` doesn’t because it was removed in the past (prior to this guidance being established), then we should introduce `XXX1d` for the new spec item rather than re-using `XXX1b`.
 
 ## Release Process
 
 This will be documented when we work on
-[#6](https://github.com/ably/specification/issues/6).
+[#121](https://github.com/ably/specification/issues/121).
