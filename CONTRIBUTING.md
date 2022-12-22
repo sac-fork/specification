@@ -65,5 +65,12 @@ For example, if `XXX1a` and `XXX1c` exist but `XXX1b` doesn’t because it was r
 
 ## Release Process
 
-This will be documented when we work on
-[#121](https://github.com/ably/specification/issues/121).
+Use our standard [Release Process](https://github.com/ably/engineering/blob/main/sdk/releases.md#release-process), where:
+
+- there is no 'Publish Workflow' to be triggered in this repository
+- the version to be bumped in the release branch is the [Specification Version](README.md#specification-version)
+- in addition to pushing a full Git version tag (to persist as static and immutable) in the form `v<major>.<minor>.<patch>`, tags should also be added or moved for higher levels of specification version granularity:
+  - `v<major>.<minor>` - e.g. `v1.2` for latest patch to version 1.2 of the specification
+  - `v<major>` - e.g. `v2` for the latest enhancements and patches to version 2 of the specification
+
+It's worth emphasising here, for clarity, that bumps to the [Protocol Version](README.md#protocol-version) or [Build Version](README.md#build-version) are not part of the release process and do not appear in release branches or the pull requests that represent those release branches. If these versions need to be bumped then that is done as part of a feature change or addition, where that feature is then subsequently implicitly incorporated into a release at the time of executing the release process.
